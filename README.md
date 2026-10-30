@@ -76,6 +76,7 @@ npm run start
 ```
 
 El servidor se inicia en el puerto definido en .env.
+
 ---
 
 # Rutas disponibles
@@ -96,6 +97,7 @@ El servidor se inicia en el puerto definido en .env.
 
 Esta ruta existe pero no está implementada en esta pre‑entrega.
 Devuelve un error controlado indicando que el repositorio no está disponible.
+
 ---
 
 # POST /api/sessions/register
@@ -124,7 +126,6 @@ Incluye:
   "password": "Secreta123"
 }
 ```
----
 
 ### Respuesta exitosa (201)
 
@@ -140,7 +141,7 @@ Incluye:
   }
 }
 ```
---- 
+
 
 ### Campos faltantes o email inválido (400)
 
