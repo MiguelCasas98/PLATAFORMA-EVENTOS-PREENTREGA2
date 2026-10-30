@@ -3,7 +3,7 @@
 ### Descripción
 
 Implementación del registro seguro de usuarios para la Plataforma de Eventos e Inscripciones.
-Se incorpora validación de datos, normalización de email, hash de contraseña con bcrypt y persistencia en MongoDB, respetando la arquitectura en capas.
+Se valida la entrada, se normaliza el email, se evita el registro duplicado, se hashea la contraseña con bcrypt y se persiste el usuario en MongoDB, respetando la arquitectura en capas.
 
 ### Tecnologías utilizadas
 
@@ -14,13 +14,17 @@ Se incorpora validación de datos, normalización de email, hash de contraseña 
 * Mongoose
 * bcrypt
 
-### Estructura del proyecto
+---
+
+# Estructura del proyecto
 
 ```
 src/
   app.js
   server.js
   config/
+    db.js
+    config.js
   routes/
     events.router.js
     sessions.router.js
@@ -44,14 +48,16 @@ src/
 package.json
 README.md
 ```
+---
 
-### Instalación
+# Instalación
 
 ```
 npm install
 ```
+---
 
-### Variables de entorno
+# Variables de entorno
 
 Crear un archivo .env basado en .env.example.
 
@@ -61,22 +67,20 @@ Variables necesarias:
 * NODE_ENV
 * MONGO_URL
 * JWT_SECRET
+---
 
-### Cómo ejecutar el proyecto
+# Cómo ejecutar el proyecto
 
 ```
 npm run start
 ```
 
 El servidor se inicia en el puerto definido en .env.
-
 ---
 
 # Rutas disponibles
 
 ### GET /api/health
-
-Devuelve:
 
 ```
 { "status": "ok", "message": "Servidor activo" }
@@ -84,20 +88,14 @@ Devuelve:
 
 ### GET /api/events
 
-Devuelve:
-
 ```
 { "status": "success", "payload": [] }
 ```
 
 ### GET /api/sessions
 
-Devuelve:
-
-```
-{ "status": "success", "payload": [] }
-```
-
+Esta ruta existe pero no está implementada en esta pre‑entrega.
+Devuelve un error controlado indicando que el repositorio no está disponible.
 ---
 
 # POST /api/sessions/register
@@ -105,8 +103,16 @@ Devuelve:
 ### Descripción
 
 Registra un usuario nuevo en la plataforma.
-Valida campos obligatorios, normaliza el email, verifica duplicados, hashea la contraseña y guarda el usuario en MongoDB.
-La respuesta no incluye la contraseña.
+Incluye:
+
+* Validación de campos obligatorios
+* Validación de formato de email
+* Normalización del email (trim + toLowerCase)
+* Verificación de email duplicado
+* Hash seguro de contraseña con bcrypt
+* Persistencia en MongoDB
+* Respuesta sin incluir la contraseña
+---
 
 ### Body esperado (JSON)
 
@@ -118,6 +124,7 @@ La respuesta no incluye la contraseña.
   "password": "Secreta123"
 }
 ```
+---
 
 ### Respuesta exitosa (201)
 
@@ -133,6 +140,7 @@ La respuesta no incluye la contraseña.
   }
 }
 ```
+--- 
 
 ### Campos faltantes o email inválido (400)
 
@@ -145,9 +153,11 @@ o
 ```
 { "status": "error", "message": "Email inválido" }
 ```
+---
 
 ### Email ya registrado (409)
 
 ```
 { "status": "error", "message": "El email ya está registrado" }
 ```
+---

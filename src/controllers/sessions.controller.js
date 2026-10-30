@@ -2,6 +2,23 @@ import SessionService from "../services/Sessions.service.js";
 
 export const registerController = async (req, res) => {
     try {
+        const { first_name, last_name, email, password } = req.body;
+
+        if (!first_name || !last_name || !email || !password) {
+            return res.status(400).json({
+                status: "error",
+                message: "Todos los campos son obligatorios: first_name, last_name, email y password"
+            });
+        }
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            return res.status(400).json({
+                status: "error",
+                message: "El formato del email no es válido"
+            });
+        }
+
         const result = await SessionService.register(req.body);
 
         return res.status(201).json({

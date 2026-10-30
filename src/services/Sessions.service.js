@@ -9,7 +9,11 @@ class SessionsService {
         const normalizedEmail = email.trim().toLowerCase();
 
         const existing = await UsersRepository.findByEmail(normalizedEmail);
-        if (existing) throw new Error("El email ya está registrado");
+        if (existing) {
+            const error = new Error("El email ya está registrado");
+            error.status = 409;
+            throw error;
+        }
 
         const hashed = await hashPassword(password);
 
@@ -30,23 +34,23 @@ class SessionsService {
     }
 
     async createSession(data) {
-        return await SessionRepository.createSession(data);
+        throw new Error("SessionRepository no está implementado en este proyecto");
     }
 
     async getSessions() {
-        return await SessionRepository.getSessions();
+        throw new Error("SessionRepository no está implementado en este proyecto");
     }
 
     async getSessionById(id) {
-        return await SessionRepository.getSessionById(id);
+        throw new Error("SessionRepository no está implementado en este proyecto");
     }
 
     async getSessionsByEvent(eventId) {
-        return await SessionRepository.getSessionsByEvent(eventId);
+        throw new Error("SessionRepository no está implementado en este proyecto");
     }
 
     async deleteSession(id) {
-        return await SessionRepository.deleteSession(id);
+        throw new Error("SessionRepository no está implementado en este proyecto");
     }
 }
 
